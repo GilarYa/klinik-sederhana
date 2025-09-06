@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Data Pasien Puskesmas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #1976d2;
+            color: white;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .nav-logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .menu-header {
+            padding: 15px 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #78909c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #546e7a;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: #37474f;
+        }
+        
+        .breadcrumb {
+            color: #78909c;
+            font-size: 14px;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-success i {
+            margin-right: 10px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            font-size: 18px;
+            color: #37474f;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1565c0;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .data-table-container {
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: #546e7a;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f5f7f9;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-action {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-edit {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .entries-filter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .entries-info {
+            color: #78909c;
+            font-size: 14px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .pagination button.active {
+            background-color: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+        
+        .admin-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .admin-info h4 {
+            color: #37474f;
+            margin-bottom: 10px;
+        }
+        
+        .admin-menu {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .admin-menu a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .menu-item span {
+                display: none;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .entries-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyMCA0NDhoLTEyOFY2NGgxMjh2Mzg0ek00MTYgMjU2aC0xMjhWNjRoMTI4djE5MnpNOTYgNDQ4VjY0aDEyOHYzODRIOTZ6Ii8+PC9zdmc+" alt="Logo Puskesmas">
+                <span>Sistem Puskesmas</span>
+            </div>
+            
+            <div class="nav-user">
+                <span>Admin</span>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <div class="menu-header">MENU UTAMA</div>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-user-injured"></i>
+                    <span>Data Pasien</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>Pemeriksaan</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-user-md"></i>
+                    <span>Data Dokter</span>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-medical"></i>
+                    <span>Rekam Medis</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Data Pasien</h1>
+                    <div class="breadcrumb">
+                        <span>Home</span> / <span>Pasien</span> / <span>Data Pasien</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Pasien
+                </button>
+            </div>
+
+            <div class="alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>Data Pasien berhasil ditambah</span>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>DAFTAR PASIEN</h3>
+                </div>
+                <div class="card-body">
+                    <div class="entries-filter">
+                        <div class="entries-info">
+                            Show 
+                            <select>
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                                <option>100</option>
+                            </select> 
+                            entries
+                        </div>
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Search...">
+                            <button class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Pasien</th>
+                                    <th>Usia</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Alamat</th>
+                                    <th>No Telp</th>
+                                    <th>Pekerjaan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ahmad</td>
+                                    <td>28</td>
+                                    <td>PRIA</td>
+                                    <td>jawa barat (jangan lupa subscribe)</td>
+                                    <td>87677526272828</td>
+                                    <td>programer</td>
+                                    <td class="table-actions">
+                                        <button class="btn-action btn-edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ayu Wandari</td>
+                                    <td>24</td>
+                                    <td>WANITA</td>
+                                    <td>Jl Sindangsari II RT 03 RW 14 No 18</td>
+                                    <td>82240206</td>
+                                    <td>hoho</td>
+                                    <td class="table-actions">
+                                        <button class="btn-action btn-edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Booby</td>
+                                    <td>15</td>
+                                    <td>PRIA</td>
+                                    <td>Jakarta</td>
+                                    <td>0</td>
+                                    <td>balbam</td>
+                                    <td class="table-actions">
+                                        <button class="btn-action btn-edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Unur</td>
+                                    <td>32</td>
+                                    <td>PRIA</td>
+                                    <td>Bandung</td>
+                                    <td>08123456789</td>
+                                    <td>Wiraswasta</td>
+                                    <td class="table-actions">
+                                        <button class="btn-action btn-edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <button>Previous</button>
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>Next</button>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </main>
+
+    <script>
+        // Fungsi untuk konfirmasi hapus data
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+            
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const patientName = row.querySelector('td:first-child').textContent;
+                    
+                    if (confirm(`Apakah Anda yakin ingin menghapus data pasien ${patientName}?`)) {
+                        row.remove();
+                        alert('Data pasien berhasil dihapus');
+                    }
+                });
+            });
+            
+            // Fungsi untuk fitur pencarian
+            const searchInput = document.querySelector('.search-input');
+            const searchButton = document.querySelector('.search-box .btn');
+            
+            searchButton.addEventListener('click', function() {
+                const searchText = searchInput.value.toLowerCase();
+                const rows = document.querySelectorAll('.data-table tbody tr');
+                
+                rows.forEach(row => {
+                    const patientName = row.querySelector('td:first-child').textContent.toLowerCase();
+                    if (patientName.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Fungsi untuk tombol tambah pasien
+            const addButton = document.querySelector('.btn-primary');
+            
+            addButton.addEventListener('click', function() {
+                alert('Fitur tambah pasien akan dibuka');
+                // Di sini biasanya akan membuka modal atau redirect ke halaman tambah pasien
+            });
+        });
+    </script>
+</body>
+</html>

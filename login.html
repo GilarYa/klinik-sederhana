@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistem Puskesmas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e88e5, #0d47a1);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #1565c0;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #616161;
+            font-size: 14px;
+        }
+        
+        .login-header img {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #424242;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #1565c0;
+            outline: none;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-login:hover {
+            background-color: #1565c0;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #616161;
+        }
+        
+        .login-footer a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        
+        .role-selector {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        
+        .role-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .role-option.active {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMTk3NmQyIiBkPSJNMzIwIDQ0OGgtMTI4VjY0aDEyOHYzODR6TTQxNiAyNTZoLTEyOFY2NGgxMjh2MTkyek05NiA0NDhWNjRoMTI4djM4NEg5NnoiLz48L3N2Zz4=" alt="Logo Puskesmas">
+            <h1>Sistem Puskesmas</h1>
+            <p>Login untuk Admin dan Dokter</p>
+        </div>
+        
+        <div class="role-selector">
+            <div class="role-option active" id="admin-role">Admin</div>
+            <div class="role-option" id="dokter-role">Dokter</div>
+        </div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password" required>
+            </div>
+            
+            <button type="submit" class="btn-login">Masuk</button>
+        </form>
+        
+        <div class="login-footer">
+            <p>Lupa password? <a href="#">Hubungi Administrator</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk memilih role (admin/dokter)
+        const adminRole = document.getElementById('admin-role');
+        const dokterRole = document.getElementById('dokter-role');
+        
+        adminRole.addEventListener('click', () => {
+            adminRole.classList.add('active');
+            dokterRole.classList.remove('active');
+        });
+        
+        dokterRole.addEventListener('click', () => {
+            dokterRole.classList.add('active');
+            adminRole.classList.remove('active');
+        });
+        
+        // Validasi form login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = adminRole.classList.contains('active') ? 'admin' : 'dokter';
+            
+            // Validasi sederhana
+            if (username === '' || password === '') {
+                alert('Username dan password harus diisi!');
+                return;
+            }
+            
+            // Simulasi login berhasil
+            alert(`Login berhasil sebagai ${role}\nSelamat datang, ${username}!`);
+            // Redirect ke halaman dashboard (dalam implementasi nyata)
+            // window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>
