@@ -325,6 +325,52 @@ $user_name = $_SESSION['user']['nama'];
             border-radius: 5px;
         }
         
+        /* Styling khusus untuk container tabel pasien dengan scroll yang terlihat */
+        .data-table-container.patients-scroll {
+            max-width: 100%;
+            border: 2px solid #1976d2;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Custom scrollbar untuk tabel pasien */
+        .data-table-container.patients-scroll::-webkit-scrollbar {
+            height: 12px;
+        }
+        
+        .data-table-container.patients-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 6px;
+        }
+        
+        .data-table-container.patients-scroll::-webkit-scrollbar-thumb {
+            background: #1976d2;
+            border-radius: 6px;
+            border: 2px solid #f1f1f1;
+        }
+        
+        .data-table-container.patients-scroll::-webkit-scrollbar-thumb:hover {
+            background: #1565c0;
+        }
+        
+        /* Styling khusus untuk tabel pasien */
+        #patients-table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 8px 6px;
+            vertical-align: middle;
+            font-size: 13px;
+        }
+        
+        #patients-table th {
+            white-space: nowrap;
+            padding: 10px 6px;
+            font-size: 12px;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -592,45 +638,6 @@ $user_name = $_SESSION['user']['nama'];
                     <p class="welcome-subtitle">Sistem Informasi Layanan Kesehatan Berbasis Web</p>
                 </div>
 
-                <!-- Statistics Cards -->
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-injured"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="total-patients">0</h3>
-                            <p>Total Pasien</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="total-doctors">0</h3>
-                            <p>Total Dokter</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="total-appointments">0</h3>
-                            <p>Janji Temu Hari Ini</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-file-medical"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="total-records">0</h3>
-                            <p>Rekam Medis</p>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="vision-mission">
                     <div class="vision-card">
@@ -666,23 +673,31 @@ $user_name = $_SESSION['user']['nama'];
                 <div class="card">
                     <div class="card-header">
                         <h3>DAFTAR PASIEN</h3>
+                        <p style="margin: 0; font-size: 12px; color: #666; margin-top: 5px;">
+                            <i class="fas fa-info-circle"></i> Geser tabel ke kanan/kiri untuk melihat kolom lainnya
+                        </p>
                     </div>
                     <div class="card-body">
-                        <div class="data-table-container" style="overflow-x: auto;">
-                            <table class="data-table" id="patients-table" style="min-width: 1200px;">
+                        <div class="data-table-container patients-scroll">
+                            <table class="data-table" id="patients-table" style="min-width: 1300px; width: max-content;">
                                 <thead>
                                     <tr>
-                                        <th style="min-width: 50px;">No.</th>
-                                        <th style="min-width: 100px;">No. RM</th>
-                                        <th style="min-width: 150px;">Nama Pasien</th>
-                                        <th style="min-width: 80px;">Usia</th>
-                                        <th style="min-width: 100px;">Jenis Kelamin</th>
-                                        <th style="min-width: 200px;">Alamat</th>
-                                        <th style="min-width: 120px;">No Telp</th>
-                                        <th style="min-width: 150px;">Dokter</th>
-                                        <th style="min-width: 100px;">Tgl Daftar</th>
-                                        <th style="min-width: 120px;">Status</th>
-                                        <th style="min-width: 150px;">Aksi</th>
+                                        <th style="width: 40px;">No.</th>
+                                        <th style="width: 90px;">No. RM</th>
+                                        <th style="width: 130px;">Nama</th>
+                                        <th style="width: 100px;">T. Lahir</th>
+                                        <th style="width: 85px;">Tgl Lahir</th>
+                                        <th style="width: 50px;">Usia</th>
+                                        <th style="width: 40px;">JK</th>
+                                        <th style="width: 150px;">Alamat</th>
+                                        <th style="width: 100px;">No Telp</th>
+                                        <th style="width: 90px;">Pekerjaan</th>
+                                        <th style="width: 70px;">Agama</th>
+                                        <th style="width: 80px;">Status</th>
+                                        <th style="width: 120px;">Dokter</th>
+                                        <th style="width: 85px;">Tgl Daftar</th>
+                                        <th style="width: 80px;">Status</th>
+                                        <th style="width: 120px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="patients-tbody">
@@ -690,7 +705,7 @@ $user_name = $_SESSION['user']['nama'];
                                     // Admin melihat SEMUA pasien dengan informasi lengkap sesuai database
                                     $query = "SELECT p.id, p.no_rm, p.nama, p.tempat_lahir, p.tanggal_lahir, p.usia, 
                                              p.jenis_kelamin, p.alamat, p.no_telp, p.pekerjaan, p.agama, 
-                                             p.status_perkawinan, p.nama_wali, p.created_at as tgl_daftar_pasien,
+                                             p.status_perkawinan, p.created_at as tgl_daftar_pasien,
                                              d.nama as dokter_nama, d.spesialisasi,
                                              pd.tanggal_daftar, pd.status as status_pendaftaran,
                                              pd.id as pendaftaran_id,
@@ -720,25 +735,58 @@ $user_name = $_SESSION['user']['nama'];
                                     <tr>
                                         <td><?php echo $no++; ?></td>
                                         <td><strong><?php echo htmlspecialchars($row['no_rm']); ?></strong></td>
-                                        <td><?php echo htmlspecialchars($row['nama']); ?></td>
-                                        <td><?php echo $row['usia']; ?> tahun</td>
-                                        <td><?php echo $row['jenis_kelamin'] === 'L' ? 'Laki-laki' : 'Perempuan'; ?></td>
-                                        <td title="<?php echo htmlspecialchars($row['alamat']); ?>">
-                                            <?php echo htmlspecialchars(substr($row['alamat'], 0, 35)) . (strlen($row['alamat']) > 35 ? '...' : ''); ?>
+                                        <td title="<?php echo htmlspecialchars($row['nama']); ?>">
+                                            <?php echo htmlspecialchars(substr($row['nama'], 0, 20)) . (strlen($row['nama']) > 20 ? '...' : ''); ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($row['no_telp'] ?? '-'); ?></td>
+                                        <td title="<?php echo htmlspecialchars($row['tempat_lahir'] ?? ''); ?>">
+                                            <?php 
+                                            $tempat = $row['tempat_lahir'] ?? '-';
+                                            echo htmlspecialchars(substr($tempat, 0, 15)) . (strlen($tempat) > 15 ? '...' : ''); 
+                                            ?>
+                                        </td>
+                                        <td><?php echo $row['tanggal_lahir'] ? date('d/m/Y', strtotime($row['tanggal_lahir'])) : '-'; ?></td>
+                                        <td><?php echo $row['usia']; ?></td>
+                                        <td><?php echo $row['jenis_kelamin'] === 'L' ? 'L' : 'P'; ?></td>
+                                        <td title="<?php echo htmlspecialchars($row['alamat']); ?>">
+                                            <?php echo htmlspecialchars(substr($row['alamat'], 0, 25)) . (strlen($row['alamat']) > 25 ? '...' : ''); ?>
+                                        </td>
+                                        <td><?php echo htmlspecialchars(substr($row['no_telp'] ?? '-', 0, 12)); ?></td>
+                                        <td title="<?php echo htmlspecialchars($row['pekerjaan'] ?? ''); ?>">
+                                            <?php 
+                                            $pekerjaan = $row['pekerjaan'] ?? '-';
+                                            echo htmlspecialchars(substr($pekerjaan, 0, 12)) . (strlen($pekerjaan) > 12 ? '...' : ''); 
+                                            ?>
+                                        </td>
+                                        <td title="<?php echo htmlspecialchars($row['agama'] ?? ''); ?>">
+                                            <?php 
+                                            $agama = $row['agama'] ?? '-';
+                                            echo htmlspecialchars(substr($agama, 0, 8)) . (strlen($agama) > 8 ? '...' : ''); 
+                                            ?>
+                                        </td>
                                         <td>
+                                            <?php 
+                                            $status_kawin = $row['status_perkawinan'] ?? 'belum_kawin';
+                                            switch($status_kawin) {
+                                                case 'belum_kawin': echo 'Belum'; break;
+                                                case 'kawin': echo 'Kawin'; break;
+                                                case 'janda': echo 'Janda'; break;
+                                                case 'duda': echo 'Duda'; break;
+                                                default: echo '-';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td title="<?php echo htmlspecialchars($row['dokter_nama'] ?? ''); ?>">
                                             <?php if (isset($row['dokter_nama']) && !empty($row['dokter_nama'])): ?>
-                                                <?php echo htmlspecialchars($row['dokter_nama']); ?>
+                                                <?php echo htmlspecialchars(substr($row['dokter_nama'], 0, 15)) . (strlen($row['dokter_nama']) > 15 ? '...' : ''); ?>
                                             <?php else: ?>
-                                                <span class="badge badge-warning">Belum Ditentukan</span>
+                                                <span class="badge badge-warning" style="font-size: 10px;">Belum</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php if ($row['tanggal_daftar']): ?>
                                                 <?php echo date('d/m/Y', strtotime($row['tanggal_daftar'])); ?>
                                             <?php else: ?>
-                                                <span class="badge badge-warning">Belum</span>
+                                                <span class="badge badge-warning" style="font-size: 10px;">Belum</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -1403,9 +1451,6 @@ $user_name = $_SESSION['user']['nama'];
                 });
             });
 
-            // Load dashboard statistics
-            loadStatistics();
-            
             // Load patients data when patients section is active
             loadPatients();
         });
@@ -1416,45 +1461,10 @@ $user_name = $_SESSION['user']['nama'];
             }
         }
 
-        function loadStatistics() {
-            // This would normally fetch from database
-            document.getElementById('total-patients').textContent = '125';
-            document.getElementById('total-doctors').textContent = '8';
-            document.getElementById('total-appointments').textContent = '15';
-            document.getElementById('total-records').textContent = '89';
-        }
 
         function loadPatients() {
-            // This would normally fetch from database via AJAX
-            const tbody = document.getElementById('patients-tbody');
-            const sampleData = [
-                {no: 1, nama: 'Ahmad Rahman', usia: 28, gender: 'Laki-laki', alamat: 'Jl. Merdeka No. 15', telp: '08123456789'},
-                {no: 2, nama: 'Siti Nurhaliza', usia: 35, gender: 'Perempuan', alamat: 'Jl. Pahlawan No. 22', telp: '08198765432'},
-                {no: 3, nama: 'Budi Santoso', usia: 42, gender: 'Laki-laki', alamat: 'Jl. Sudirman No. 8', telp: '08156789012'}
-            ];
-
-            tbody.innerHTML = '';
-            sampleData.forEach(patient => {
-                const row = `
-                    <tr>
-                        <td>${patient.no}</td>
-                        <td>${patient.nama}</td>
-                        <td>${patient.usia} tahun</td>
-                        <td>${patient.gender}</td>
-                        <td>${patient.alamat}</td>
-                        <td>${patient.telp}</td>
-                        <td class="table-actions">
-                            <button class="btn-action btn-edit" onclick="editPatient(${patient.no})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-action btn-delete" onclick="deletePatient(${patient.no})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
+            // Data pasien sudah dimuat dari database melalui PHP
+            // Fungsi ini hanya untuk keperluan refresh jika diperlukan
         }
 
         function addPatient() {
